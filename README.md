@@ -4,7 +4,7 @@
 
 A back-end project based on twitter.
 
-This is a back-end project, the API have the objective to have a route that will let the user login, a route that will let the user see the tweets and a route that will let them create new tweets.
+The API have the objective to have a route that will let the user login, a route that will let the user see the tweets and a route that will let them create new tweets.
 
 ## Technologies
 <p align='center'>
