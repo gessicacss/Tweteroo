@@ -33,3 +33,4 @@ npm i
 ```
 npm start
 ```
+4. Access http://localhost:5000 on your browser to run the API.
