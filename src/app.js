@@ -30,7 +30,8 @@ server.post('/tweets', (req, res) => {
 })
 
 server.get("/tweets", (req, res) => {
-  res.send(tweets);
+  const latestTweets = tweets.slice(-10);
+  res.send(latestTweets);
 });
 
 const port = 5000;
