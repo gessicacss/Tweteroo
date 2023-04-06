@@ -30,11 +30,11 @@ server.post('/tweets', (req, res) => {
     return res.status(401).send('UNAUTHORIZED');
   }
 
-  if (!tweet || !username || typeof tweet !== "string"){
+  if (!tweet || !username){
     return res.status(400).send('Todos os campos são obrigatórios!')
   }
 
-  if (typeof tweet !== string){
+  if (typeof tweet !== 'string'){
     return res.status(400).send('Os campos precisam ser uma string!')
   }
 
