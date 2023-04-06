@@ -38,14 +38,17 @@ server.post('/tweets', (req, res) => {
     return res.status(400).send('Os campos precisam ser uma string!')
   }
 
-  const avatar = findUser.avatar;
-  const newTweet = {username, tweet, avatar};
+  const newTweet = {username, tweet};
   tweets.push(newTweet);
   res.status(201).send('OK');
 })
 
 server.get("/tweets", (req, res) => {
   const latestTweets = tweets.slice(-10);
+  latestTweets.forEach((tweet) => {
+    const findUser = users.find((u) => u.username === tweet.username);
+    tweet.avatar = findUser.avatar;
+  })
   res.send(latestTweets);
 });
 
