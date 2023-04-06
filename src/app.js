@@ -13,6 +13,10 @@ server.post('/sign-up', (req, res) => {
   if (!username || !avatar){
     return res.status(400).send('Todos os campos são obrigatórios!')
   }
+  if (typeof username !== "string" || typeof avatar !== 'string'){
+    return res.status(400).send('Os campos precisam ser uma string!')
+  }
+
   const newUser = {username, avatar};
   users.push(newUser);
   res.status(201).send('OK');
@@ -26,8 +30,12 @@ server.post('/tweets', (req, res) => {
     return res.status(401).send('UNAUTHORIZED');
   }
 
-  if (!tweet || !username || tweet === ' '){
-    return res.status(401).send('Todos os campos são obrigatórios!')
+  if (!tweet || !username || typeof tweet !== "string"){
+    return res.status(400).send('Todos os campos são obrigatórios!')
+  }
+
+  if (typeof tweet !== string){
+    return res.status(400).send('Os campos precisam ser uma string!')
   }
 
   const avatar = findUser.avatar;
