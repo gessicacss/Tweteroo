@@ -16,7 +16,7 @@ The API has the objective of providing routes that will allow users to log in, v
 ## Routes
 
 #### <span style='font-weight:bold;'>POST</span> /sign-up
-A route to create a new user account. The request body should be:
+A route to create a new user account. If the request is wrong it'll return a error status 400 and an error message indicating that all the fields are required and shouldn't be empty. The request body should be:
 ```
 {
     username: "bobesponja",
@@ -25,7 +25,7 @@ A route to create a new user account. The request body should be:
 ```
 
 #### <span style='font-weight:bold;'>GET</span> /tweets
-A route that will retrieve a list of tweets. The response will come like that:
+A route that will retrieve a list of tweets, paginated by default to 10 tweets per page. To specify a different page, use the page query parameter, e.g. ?page=2. If the page parameter is not provided or is invalid, a 400 status code error will be returned. If there are no tweets, it'll return an empty array. The response will come like that:
 ```
 [
 	{
@@ -37,7 +37,7 @@ A route that will retrieve a list of tweets. The response will come like that:
 ```
 
 #### <span style='font-weight:bold;'>POST</span> /tweets
-A request to create new tweets. The request body should be:
+A request to create new tweets. All the fields are required and can't be empty. If any of the fields are missing or empty, the API will respond with a 400 status code and an error message indicating that all the fields are required and shouldn't be empty. The request body should be:
 ```
 	{
 		username: "bobesponja",
