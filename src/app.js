@@ -24,13 +24,14 @@ server.post('/sign-up', (req, res) => {
 
 
 server.post('/tweets', (req, res) => {
-  const {username, tweet} = req.body;
-  const findUser = users.find((u) => u.username === username);
+  const { user } = req.headers;
+  const {tweet} = req.body;
+  const findUser = users.find((u) => u.username === user);
   if (!findUser){
     return res.status(401).send('UNAUTHORIZED');
   }
 
-  if (!tweet || !username){
+  if (!tweet || !user){
     return res.status(400).send('Todos os campos são obrigatórios!')
   }
 
@@ -38,7 +39,7 @@ server.post('/tweets', (req, res) => {
     return res.status(400).send('Os campos precisam ser uma string!')
   }
 
-  const newTweet = {username, tweet};
+  const newTweet = {username: user, tweet};
   tweets.push(newTweet);
   res.status(201).send('OK');
 })
