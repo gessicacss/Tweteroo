@@ -27,6 +27,7 @@ server.post('/tweets', (req, res) => {
   const { user } = req.headers;
   const {tweet} = req.body;
   const findUser = users.find((u) => u.username === user);
+
   if (!findUser){
     return res.status(401).send('UNAUTHORIZED');
   }
@@ -38,14 +39,18 @@ server.post('/tweets', (req, res) => {
   if (typeof tweet !== 'string'){
     return res.status(400).send('Os campos precisam ser uma string!')
   }
-
-  const newTweet = {username: user, tweet};
+  const username = user;
+  const newTweet = {username, tweet};
   tweets.push(newTweet);
   res.status(201).send('OK');
 })
 
 server.get("/tweets", (req, res) => {
-  const latestTweets = tweets.slice(-10);
+  const { page } = req.query;
+  const tweetsPerPage = 10;
+  const startIndex = (Number(page) - 1) * tweetsPerPage;
+  const endIndex = startIndex + tweetsPerPage;
+  const latestTweets = tweets.slice(startIndex, endIndex);;
   latestTweets.forEach((tweet) => {
     const findUser = users.find((u) => u.username === tweet.username);
     tweet.avatar = findUser.avatar;
