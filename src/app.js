@@ -46,8 +46,11 @@ server.post('/tweets', (req, res) => {
 })
 
 server.get("/tweets", (req, res) => {
-  const { page } = req.query;
+  let { page } = req.query;
   const tweetsPerPage = 10;
+  if (!page) {
+    page = 1;
+  }
   const startIndex = (Number(page) - 1) * tweetsPerPage;
   const endIndex = startIndex + tweetsPerPage;
   const latestTweets = tweets.slice(startIndex, endIndex);;
