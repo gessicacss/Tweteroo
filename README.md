@@ -16,10 +16,34 @@ The API has the objective of providing routes that will allow users to log in, v
 ## Routes
 
 #### <span style='font-weight:bold;'>POST</span> /sign-up
+A route to create a new user account. The request body should be:
+```
+{
+    username: "bobesponja",
+	avatar: "https://cdn.shopify.com/s/files/1/0150/0643/3380/files/Screen_Shot_2019-07-01_at_11.35.42_AM_370x230@2x.png"
+}
+```
 
 #### <span style='font-weight:bold;'>GET</span> /tweets
+A route that will retrieve a list of tweets. The response will come like that:
+```
+[
+	{
+		username: "bobesponja",
+		avatar: "https://cdn.shopify.com/s/files/1/0150/0643/3380/files/Screen_Shot_2019-07-01_at_11.35.42_AM_370x230@2x.png",
+		tweet: "Eu amo hambúrguer de siri!"
+	}
+]
+```
 
 #### <span style='font-weight:bold;'>POST</span> /tweets
+A request to create new tweets. The request body should be:
+```
+	{
+		username: "bobesponja",
+		tweet: "Eu amo hambúrguer de siri!"
+	}
+```
 
 ## How to run
 
