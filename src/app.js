@@ -53,12 +53,16 @@ server.get("/tweets", (req, res) => {
   }
   const startIndex = (Number(page) - 1) * tweetsPerPage;
   const endIndex = startIndex + tweetsPerPage;
-  const latestTweets = tweets.slice(startIndex, endIndex);;
-  latestTweets.forEach((tweet) => {
+  const latestTweets = tweets.slice(startIndex, endIndex);
+  const newTweets = latestTweets.map((tweet) => {
     const findUser = users.find((u) => u.username === tweet.username);
-    tweet.avatar = findUser.avatar;
+    return {
+      username: tweet.username,
+      avatar: findUser.avatar,
+      tweet: tweet.tweet
+    };
   })
-  res.send(latestTweets);
+  res.send(newTweets);
 });
 
 server.get('/tweets/:username', (req, res) => {
