@@ -48,6 +48,9 @@ server.post('/tweets', (req, res) => {
 server.get("/tweets", (req, res) => {
   let { page } = req.query;
   const tweetsPerPage = 10;
+  if (!page){
+    page = 1;
+  }
   if (page <= 0) {
     return res.status(400).send('Página inválida!')
   }
