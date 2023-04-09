@@ -48,7 +48,7 @@ server.post('/tweets', (req, res) => {
 server.get("/tweets", (req, res) => {
   let { page } = req.query;
   const tweetsPerPage = 10;
-  if (page < 1) {
+  if (isNaN(page) || page < 1) {
     return res.status(400).send('Página inválida!')
   }
   const startIndex = (Number(page) - 1) * tweetsPerPage;
