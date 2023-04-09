@@ -51,7 +51,7 @@ server.get("/tweets", (req, res) => {
   if (!page){
     page = 1;
   }
-  if (page <= 0) {
+  if (isNaN(page) || page < 1) {
     return res.status(400).send('Página inválida!')
   }
   const startIndex = (Number(page) - 1) * tweetsPerPage;
