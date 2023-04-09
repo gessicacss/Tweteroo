@@ -48,10 +48,7 @@ server.post('/tweets', (req, res) => {
 server.get("/tweets", (req, res) => {
   let { page } = req.query;
   const tweetsPerPage = 10;
-  if (!page) {
-    return res.status(200).send([]);
-  }
-  if (isNaN(page) || page < 1) {
+  if (page < 1) {
     return res.status(400).send('Página inválida!')
   }
   const startIndex = (Number(page) - 1) * tweetsPerPage;
@@ -71,7 +68,16 @@ server.get("/tweets", (req, res) => {
 server.get('/tweets/:username', (req, res) => {
   const {username} = req.params;
   const findTweets = tweets.filter((u) => u.username === username);
-  res.send(findTweets);
+  const tweetsByUser = findTweets.map((tweet) => {
+    const findUser = users.find((u) => u.username === tweet.username);
+    return {
+      username: tweet.username,
+      avatar: findUser.avatar,
+      tweet: tweet.tweet
+    };
+  }
+  )
+  res.send(tweetsByUser);
 })
 
 const port = 5000;
