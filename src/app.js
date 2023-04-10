@@ -7,7 +7,6 @@ server.use(express.json());
 
 const users = [];
 const tweets = [];
-const tweetsWithAvatar = [];
 
 server.post("/sign-up", (req, res) => {
   const { username, avatar } = req.body;
