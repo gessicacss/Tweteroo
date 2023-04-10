@@ -7,81 +7,77 @@ server.use(express.json());
 
 const users = [];
 const tweets = [];
+const tweetsWithAvatar = [];
 
-server.post('/sign-up', (req, res) => {
-  const {username, avatar} = req.body;
-  if (!username || !avatar){
-    return res.status(400).send('Todos os campos são obrigatórios!')
+server.post("/sign-up", (req, res) => {
+  const { username, avatar } = req.body;
+  if (!username || !avatar) {
+    return res.status(400).send("Todos os campos são obrigatórios!");
   }
-  if (typeof username !== "string" || typeof avatar !== 'string'){
-    return res.status(400).send('Os campos precisam ser uma string!')
+  if (typeof username !== "string" || typeof avatar !== "string") {
+    return res.status(400).send("Os campos precisam ser uma string!");
   }
 
-  const newUser = {username, avatar};
+  const newUser = { username, avatar };
   users.push(newUser);
-  res.status(201).send('OK');
-})
+  res.status(201).send("OK");
+});
 
-
-server.post('/tweets', (req, res) => {
+server.post("/tweets", (req, res) => {
   const { user } = req.headers;
-  const {tweet} = req.body;
+  const { tweet } = req.body;
   const findUser = users.find((u) => u.username === user);
 
-  if (!findUser){
-    return res.status(401).send('UNAUTHORIZED');
+  if (!findUser) {
+    return res.status(401).send("UNAUTHORIZED");
   }
 
-  if (!tweet || !user){
-    return res.status(400).send('Todos os campos são obrigatórios!')
+  if (!tweet || !user) {
+    return res.status(400).send("Todos os campos são obrigatórios!");
   }
 
-  if (typeof tweet !== 'string'){
-    return res.status(400).send('Os campos precisam ser uma string!')
+  if (typeof tweet !== "string") {
+    return res.status(400).send("Os campos precisam ser uma string!");
   }
   const username = user;
-  const newTweet = {username, tweet};
+  const newTweet = { username, tweet };
   tweets.push(newTweet);
-  res.status(201).send('OK');
-})
+  res.status(201).send("OK");
+});
 
 server.get("/tweets", (req, res) => {
   let { page } = req.query;
   const tweetsPerPage = 10;
-  if (!page){
+  if (!page) {
     page = 1;
   }
   if (isNaN(page) || page < 1) {
-    return res.status(400).send('Página inválida!')
+    return res.status(400).send("Página inválida!");
   }
   const startIndex = (Number(page) - 1) * tweetsPerPage;
   const endIndex = startIndex + tweetsPerPage;
   const latestTweets = tweets.slice(startIndex, endIndex);
-  const newTweets = latestTweets.map((tweet) => {
-    const findUser = users.find((u) => u.username === tweet.username);
-    return {
-      username: tweet.username,
-      avatar: findUser.avatar,
-      tweet: tweet.tweet
-    };
-  })
+  const newTweets = getTweetsWithAvatar(latestTweets);
   res.send(newTweets);
 });
 
-server.get('/tweets/:username', (req, res) => {
-  const {username} = req.params;
+server.get("/tweets/:username", (req, res) => {
+  const { username } = req.params;
   const findTweets = tweets.filter((u) => u.username === username);
-  const tweetsByUser = findTweets.map((tweet) => {
+  const tweetsByUser = getTweetsWithAvatar(findTweets);
+  res.send(tweetsByUser);
+});
+
+function getTweetsWithAvatar(tweets) {
+  return tweets.map((tweet) => {
     const findUser = users.find((u) => u.username === tweet.username);
     return {
       username: tweet.username,
       avatar: findUser.avatar,
-      tweet: tweet.tweet
+      tweet: tweet.tweet,
     };
-  }
-  )
-  res.send(tweetsByUser);
-})
+  });
+}
 
 const port = 5000;
 server.listen(port, () => console.log(`running on port ${port}`));
