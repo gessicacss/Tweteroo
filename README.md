@@ -37,12 +37,35 @@ A route that will retrieve a list of tweets, paginated by default to 10 tweets p
 ```
 
 #### <span style='font-weight:bold;'>POST</span> /tweets
-A request to create new tweets. All the fields are required and can't be empty. If any of the fields are missing or empty, the API will respond with a 400 status code and an error message indicating that all the fields are required and shouldn't be empty. The request body should be:
+A request to create new tweets. All the fields are required and can't be empty. The username should come as a header. If any of the fields are missing or empty, the API will respond with a 400 status code and an error message indicating that all the fields are required and shouldn't be empty.
 ```
+The header should be like this:
 	{
-		username: "bobesponja",
+		user: "username"
+	}
+```
+```
+While the request body should be:
+	{
 		tweet: "Eu amo hambúrguer de siri!"
 	}
+```
+
+#### <span style='font-weight:bold;'>GET</span> /tweets/:username
+A request that will retrieve a list of tweets created by the user specified in the params. If there are no tweets, it'll return an empty array. The response will come like that:
+```
+[
+	{
+		username: "bobesponja",
+		avatar: "https://cdn.shopify.com/s/files/1/0150/0643/3380/files/Screen_Shot_2019-07-01_at_11.35.42_AM_370x230@2x.png",
+	  tweet: "Eu amo hambúrguer de siri!"
+	},
+	{
+		username: "bobesponja",
+		avatar: "https://cdn.shopify.com/s/files/1/0150/0643/3380/files/Screen_Shot_2019-07-01_at_11.35.42_AM_370x230@2x.png",
+	  tweet: "Eu sou amigo do Patrick, ele é uma estrela!"
+	}
+]
 ```
 
 ## How to run
